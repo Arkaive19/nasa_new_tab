@@ -1,0 +1,131 @@
+#bg-anim {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+#bg-anim li {
+  position: absolute;
+  bottom: -150px;
+  display: block;
+  list-style: none;
+
+  width: 20px;
+  height: 20px;
+  background: rgba(168, 85, 247, 0.18);
+
+  opacity: 0;
+  animation-play-state: paused;
+  animation-name: animate;
+  animation-duration: 25s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+#bg-anim li:nth-child(1) {
+  left: 15%;
+  width: 80px;
+  height: 80px;
+  animation-delay: calc(0+var(--anim-delay)) s;
+}
+
+#bg-anim li:nth-child(2) {
+  left: 10%;
+  width: 20px;
+  height: 20px;
+  animation-delay: calc(2+var(--anim-delay)) s;
+  animation-duration: 15s;
+}
+
+#bg-anim li:nth-child(3) {
+  left: 70%;
+  width: 20px;
+  height: 20px;
+  animation-delay: calc(7+var(--anim-delay)) s;
+}
+
+#bg-anim li:nth-child(4) {
+  left: 40%;
+  width: 60px;
+  height: 60px;
+  animation-delay: calc(3+var(--anim-delay)) s;
+  animation-duration: 18s;
+}
+
+#bg-anim li:nth-child(5) {
+  left: 65%;
+  width: 20px;
+  height: 20px;
+  animation-delay: calc(3+var(--anim-delay)) s;
+}
+
+#bg-anim li:nth-child(6) {
+  left: 75%;
+  width: 110px;
+  height: 110px;
+  animation-delay: calc(6+var(--anim-delay)) s;
+}
+
+#bg-anim li:nth-child(7) {
+  left: 35%;
+  width: 150px;
+  height: 150px;
+  animation-delay: calc(10+var(--anim-delay)) s;
+}
+
+#bg-anim li:nth-child(8) {
+  left: 50%;
+  width: 25px;
+  height: 25px;
+  animation-delay: calc(18+var(--anim-delay)) s;
+  animation-duration: 45s;
+}
+
+#bg-anim li:nth-child(9) {
+  left: 20%;
+  width: 15px;
+  height: 15px;
+  animation-delay: calc(5+var(--anim-delay)) s;
+  animation-duration: 35s;
+}
+
+#bg-anim li:nth-child(10) {
+  left: 80%;
+  width: 150px;
+  height: 150px;
+  animation-delay: calc(3+var(--anim-delay)) s;
+  animation-duration: 11s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+    border-radius: 0;
+  }
+
+  100% {
+    transform: translateY(-100vh) rotate(720deg);
+    opacity: 0;
+    border-radius: 50%;
+  }
+}
+
+@media (max-width: 768px) {
+  #bg-anim li:nth-child(7),
+  #bg-anim li:nth-child(10) {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+}
+@media (min-width: 1024px) {
+}
+@media (min-width: 1280px) {
+}

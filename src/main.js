@@ -1,60 +1,68 @@
-import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+const API_KEY = import.meta.env.VITE_NASA_API_KEY;
+const appElement = document.querySelector("#app");
+const datepicker = document.querySelector("#datepicker");
 
-document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+const today = new Date().toISOString().slice(0, 10);
+datepicker.max = today;
+datepicker.value = today;
 
-<div class="ticks"></div>
+function setLoading(message) {
+  appElement.className = "loading";
+  appElement.innerHTML = `<p>${message}</p>`;
+}
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+function setError(message) {
+  appElement.className = "";
+  appElement.innerHTML = `
+    <article class="card error">
+      <p>${message}</p>
+    </article>
+  `;
+}
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+function renderApod(data) {
+  appElement.className = "";
+  const media =
+    data.media_type === "image"
+      ? `<img src="${data.url}" alt="${data.title}" loading="lazy" />`
+      : `<video controls src="${data.url}" preload="metadata"></video>`;
 
-setupCounter(document.querySelector('#counter'))
+  appElement.innerHTML = `
+    <article class="card">
+      <header>
+        <div class="meta-row">
+          <span class="meta-pill">${data.media_type.toUpperCase()}</span>
+          <span>${data.date}</span>
+        </div>
+        <h1>${data.title}</h1>
+      </header>
+      <figure>${media}</figure>
+      <p>${data.explanation}</p>
+    </article>
+  `;
+}
+
+async function fetchApod(date) {
+  setLoading(`Loading Astronomy Picture for ${date}…`);
+
+  try {
+    const response = await fetch(
+      `https://api.nasa.gov/planetary/apod?api_key=${API_KEY}&date=${date}`,
+    );
+    if (!response.ok) {
+      throw new Error("Unable to fetch Astronomy Picture of the Day.");
+    }
+    const data = await response.json();
+    renderApod(data);
+  } catch (err) {
+    setError(err.message || "Unable to load APOD. Please try again later.");
+  }
+}
+
+datepicker.addEventListener("change", () => {
+  if (datepicker.value) {
+    fetchApod(datepicker.value);
+  }
+});
+
+fetchApod(today);
