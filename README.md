@@ -4,4 +4,4 @@ a mission guide from stardance hackclub. wanted to try sum missions and the nasa
 
 # what did I do?
 
-i added a custom background aniamation of drifting blocks, and also stylized the website to make it look a tad bit better than well uk js white
+i added a custom background aniamation of drifting blocks, and also stylized the website to make it look a tad bit better than well uk js white. this was more or less just a warmup
