@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+.wakatime-project
 
 # Editor directories and files
 .vscode/*
