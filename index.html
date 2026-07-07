@@ -14,18 +14,24 @@
   </head>
   <body>
     <div id="root">
-      <h1>NASA APOD!</h1>
-      <div class="top-bar">
-        <div class="picker-wrap">
-          <label for="datepicker">Choose a date</label>
-          <input type="date" id="datepicker" />
-        </div>
+      <div class="grid-item grid-item-1">
+        <h1 class="header">NASA APOD!</h1>
+      </div>
+      <div class="grid-item grid-item-2">
+        <input type="date" id="datepicker" />
+        <label>click image for more info</label>
         <button class="randomize">randomize</button>
       </div>
-      <main id="app" class="loading">
-        <p>Loading today's NASA Astronomy Picture of the Day…</p>
-      </main>
+
+      <div id="content" class="loading grid-item grid-item-3">
+        <p>Loading...</p>
+      </div>
     </div>
+    <div id="popup" class="popup">
+      <p></p>
+      <button class="close">Close</button>
+    </div>
+    <!-- bg-animation, i used in my portfolio for some extra flair -->
     <ul id="bg-anim">
       <li></li>
       <li></li>

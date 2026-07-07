@@ -1,47 +1,51 @@
 const API_KEY = import.meta.env.VITE_NASA_API_KEY;
-const appElement = document.querySelector("#app");
+const appElement = document.querySelector("#content");
 const datepicker = document.querySelector("#datepicker");
+const header = document.querySelector(".header");
+const popup = document.getElementById("popup");
+const popupContent = document.querySelector(".popup>p");
+const popupCloser = document.querySelector(".close");
+let popupState = document.querySelector(".asset") ? true : false;
 
 const today = new Date().toISOString().slice(0, 10);
 datepicker.max = today;
 datepicker.value = today;
-
 function setLoading(message) {
-  appElement.className = "loading";
+  appElement.className = "loading grid-item grid-item-3";
   appElement.innerHTML = `<p>${message}</p>`;
 }
 
 function setError(message) {
-  appElement.className = "";
+  appElement.className = "grid-item grid-item-3";
   appElement.innerHTML = `
-    <article class="card error">
+    <span class="card error">
       <p>${message}</p>
-    </article>
+    </span>
   `;
 }
 
 function renderApod(data) {
-  appElement.className = "";
+  appElement.className = "grid-item grid-item-3";
   const media =
     data.media_type === "image"
-      ? `<img src="${data.url}" alt="${data.title}" loading="lazy" />`
-      : `<video controls src="${data.url}" preload="metadata"></video>`;
+      ? `<img src="${data.url}" alt="${data.title}" loading="lazy" class="asset" />`
+      : `<video controls src="${data.url}" preload="metadata" class="asset"></video>`;
 
+  header.innerHTML = `${data.title}`;
   appElement.innerHTML = `
-    <article class="card">
-      <header>
-        <div class="meta-row">
-          <span class="meta-pill">${data.media_type.toUpperCase()}</span>
-          <span>${data.date}</span>
-        </div>
-        <h1>${data.title}</h1>
-      </header>
-      <figure>${media}</figure>
-      <p>${data.explanation}</p>
-    </article>
-  `;
-}
 
+      ${media}
+  
+  `;
+  popupContent.innerHTML = `${data.explanation}`;
+
+  document.querySelector(".asset").addEventListener("click", () => {
+    togglePopup();
+  });
+}
+popupCloser.addEventListener("click", () => {
+  togglePopup();
+});
 async function fetchApod(date) {
   setLoading(`Loading Astronomy Picture for ${date}…`);
 
@@ -56,6 +60,7 @@ async function fetchApod(date) {
     renderApod(data);
   } catch (err) {
     setError(err.message || "Unable to load APOD. Please try again later.");
+    2;
   }
 }
 
@@ -77,4 +82,8 @@ function randomizer() {
 
 document.querySelector(".randomize").addEventListener("click", randomizer);
 
+function togglePopup() {
+  popupState ? (popup.style.display = "none") : (popup.style.display = "block");
+  popupState = !popupState;
+}
 fetchApod(today);
