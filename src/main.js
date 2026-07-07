@@ -61,8 +61,20 @@ async function fetchApod(date) {
 
 datepicker.addEventListener("change", () => {
   if (datepicker.value) {
+    console.log(datepicker.value);
     fetchApod(datepicker.value);
   }
 });
+
+function randomizer() {
+  const minDate = new Date("1995-06-16T00:00:00");
+  const maxDate = new Date();
+
+  const randomTime =
+    minDate.getTime() + Math.random() * (maxDate.getTime() - minDate.getTime());
+  fetchApod(new Date(randomTime).toISOString().split("T")[0]);
+}
+
+document.querySelector(".randomize").addEventListener("click", randomizer);
 
 fetchApod(today);
