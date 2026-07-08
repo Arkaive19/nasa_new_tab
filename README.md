@@ -8,6 +8,10 @@ A NASA astronaut picture of the day (APOD) new tab website.
 
 This project is a mission guide submission for Hack Club's Stardance. I wanted to try out the missions offered by hackclub.
 
+## AI Usage
+
+AI has been used to partially write this README.md, debug, refactor and improve this project.
+
 ## Built With
 
 - **Framework:** React / Vite (vanilla)
