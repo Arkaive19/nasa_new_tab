@@ -6,7 +6,7 @@ A NASA astronaut picture of the day (APOD) new tab website.
 
 ## Built for stardance
 
-This project is a mission guide submission for Hack Club's Stardance. I wanted to try out the missions offered by hackclub is akk
+This project is a mission guide submission for Hack Club's Stardance. I wanted to try out the missions offered by hackclub.
 
 ## Built With
 
